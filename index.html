@@ -363,99 +363,135 @@
   </style>
 </head>
 <body>
-  <!-- Título da página -->
-  <div class="admin-title-container" style="margin-top:2vh;">
-    <span class="page-title">Admin Sorteio</span>
-    <!-- Botão de nova inscrição alinhado à direita do board -->
-    <button id="btn-nova-inscricao" title="Nova inscrição"
-      style="background:#fff; color:#4C51BF; border:1.5px solid #4C51BF; border-radius:8px; width:42px; height:42px; font-size:1.5em; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(76,81,191,0.07); transition:background 0.2s, color 0.2s, border 0.2s; margin-left:auto;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="#4C51BF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="11" y1="5" x2="11" y2="17"/><line x1="5" y1="11" x2="17" y2="11"/></svg>
-    </button>
-  </div>
-  <div class="admin-container">
-    <div class="last-label">Último  inscrito</div>
-    <br>
-    <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:1.2em;">
-      <div id="last-number" class="last-number">--</div>
-      <div id="last-nickname" style="color:#4C51BF; font-size:1.1em; font-weight:500; margin-top:0.3em; letter-spacing:1px; background:#f7fafc; border-radius:7px; padding:0.2em 1em; border:1px solid #e9eafc; min-height:1.7em;">
-        <!-- Nickname será inserido aqui -->
-      </div>
-    </div>
-    <!-- Barra de pesquisa centralizada e maior, com margens e ícone melhorado -->
-    <div class="search-bar-container">
-      <span class="search-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="#4C51BF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><circle cx="9" cy="9" r="7"/><line x1="15" y1="15" x2="19" y2="19"/></svg>
-      </span>
-      <input
-        type="text"
-        id="search-input"
-        placeholder="Pesquisar por Id ou Nickname..."
-        class="search-bar"
-      />
-    </div>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>NickName</th>
-            <th>Hora</th>
-          </tr>
-        </thead>
-        <tbody id="table-body">
-          <!-- Registos serão inseridos aqui -->
-        </tbody>
-      </table>
-    </div>
-    <div style="margin-top:1em; display:flex; justify-content:flex-end; align-items:center; width:100%;">
-      <div>
-        <label for="page-size" style="font-size:0.6em; color:#4C51BF; font-weight:400;">Registos por página:</label>
-        <select id="page-size" style="padding:0.2em 0.7em; border-radius:6px; border:1px solid #a3aed6;">
-          <option value="5">5</option>
-          <option value="10" selected>10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-        </select>
-      </div>
-    </div>
-    <div class="pagination" id="pagination" style="display:none; margin-top:0.3em;">
-      <button id="first-page" title="Primeira página" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
-        <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
-          <polyline points="11 13 7 8 11 3"/>
-          <polyline points="15 13 11 8 15 3"/>
-        </svg>
-      </button>
-      <button id="prev-page" title="Anterior" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
-        <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
-          <polyline points="11 13 7 8 11 3"/>
-        </svg>
-      </button>
-      <span class="page-info" id="page-info" style="font-size:0.97em; min-width:60px;"></span>
-      <button id="next-page" title="Próxima" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
-        <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
-          <polyline points="5 3 9 8 5 13"/>
-        </svg>
-      </button>
-      <button id="last-page" title="Última página" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
-        <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
-          <polyline points="5 3 9 8 5 13"/>
-          <polyline points="9 3 13 8 9 13"/>
-        </svg>
-      </button>
+  <!-- Overlay de login -->
+  <div id="login-overlay" style="position:fixed; z-index:2000; top:0; left:0; width:100vw; height:100vh; background:rgba(44,49,80,0.18); display:flex; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; box-shadow:0 6px 32px rgba(44,49,80,0.18); padding:2em 2em 1.5em 2em; min-width:260px; max-width:90vw; display:flex; flex-direction:column; align-items:center; position:relative;">
+      <div style="font-size:1.3em; font-weight:600; color:#4C51BF; margin-bottom:1em;">Acesso restrito</div>
+      <input id="admin-password" type="password" placeholder="Password" style="padding:0.7em 1em; border-radius:8px; border:1.5px solid #a3aed6; font-size:1.1em; width:100%; margin-bottom:1em;"/>
+      <button id="login-btn" style="background:#4C51BF; color:#fff; border:none; border-radius:8px; padding:0.7em 2em; font-size:1.1em; font-weight:600; cursor:pointer;">Entrar</button>
+      <div id="login-msg" style="margin-top:1em; font-size:1em; color:#e53e3e; display:none;"></div>
     </div>
   </div>
-  <!-- Modal para nova inscrição -->
-  <div id="modal-inscricao" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(44,49,80,0.25); z-index:1000; align-items:center; justify-content:center;">
-    <div style="background:#fff; border-radius:14px; box-shadow:0 6px 32px rgba(44,49,80,0.18); padding:2em 1.5em 1.5em 1.5em; min-width:280px; max-width:90vw; display:flex; flex-direction:column; align-items:center; position:relative;">
-      <button id="close-modal-inscricao" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:1.5em; color:#4C51BF; cursor:pointer;">&times;</button>
-      <div style="font-size:1.2em; font-weight:600; color:#4C51BF; margin-bottom:1em;">Nova inscrição</div>
-      <input id="nickname-input" type="text" placeholder="NickName" style="padding:0.7em 1em; border-radius:8px; border:1.5px solid #a3aed6; font-size:1.1em; width:100%; margin-bottom:1em;"/>
-      <button id="confirm-inscricao" style="background:#4C51BF; color:#fff; border:none; border-radius:8px; padding:0.7em 2em; font-size:1.1em; font-weight:600; cursor:pointer;">Inscrever</button>
-      <div id="inscricao-msg" style="margin-top:1em; font-size:1em; color:#e53e3e; display:none;"></div>
+  <div id="main-content" style="display:none;">
+    <!-- Título da página -->
+    <div class="admin-title-container" style="margin-top:2vh;">
+      <span class="page-title">Admin Sorteio</span>
+      <!-- Botão de nova inscrição alinhado à direita do board -->
+      <button id="btn-nova-inscricao" title="Nova inscrição"
+        style="background:#fff; color:#4C51BF; border:1.5px solid #4C51BF; border-radius:8px; width:42px; height:42px; font-size:1.5em; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(76,81,191,0.07); transition:background 0.2s, color 0.2s, border 0.2s; margin-left:auto;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="#4C51BF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="11" y1="5" x2="11" y2="17"/><line x1="5" y1="11" x2="17" y2="11"/></svg>
+      </button>
+    </div>
+    <div class="admin-container">
+      <div class="last-label">Último  inscrito</div>
+      <br>
+      <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:1.2em;">
+        <div id="last-number" class="last-number">--</div>
+        <div id="last-nickname" style="color:#4C51BF; font-size:1.1em; font-weight:500; margin-top:0.3em; letter-spacing:1px; background:#f7fafc; border-radius:7px; padding:0.2em 1em; border:1px solid #e9eafc; min-height:1.7em;">
+          <!-- Nickname será inserido aqui -->
+        </div>
+      </div>
+      <!-- Barra de pesquisa centralizada e maior, com margens e ícone melhorado -->
+      <div class="search-bar-container">
+        <span class="search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="#4C51BF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><circle cx="9" cy="9" r="7"/><line x1="15" y1="15" x2="19" y2="19"/></svg>
+        </span>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Pesquisar por Id ou Nickname..."
+          class="search-bar"
+        />
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NickName</th>
+              <th>Hora</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Registos serão inseridos aqui -->
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:1em; display:flex; justify-content:flex-end; align-items:center; width:100%;">
+        <div>
+          <label for="page-size" style="font-size:0.6em; color:#4C51BF; font-weight:400;">Registos por página:</label>
+          <select id="page-size" style="padding:0.2em 0.7em; border-radius:6px; border:1px solid #a3aed6;">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+      </div>
+      <div class="pagination" id="pagination" style="display:none; margin-top:0.3em;">
+        <button id="first-page" title="Primeira página" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
+          <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
+            <polyline points="11 13 7 8 11 3"/>
+            <polyline points="15 13 11 8 15 3"/>
+          </svg>
+        </button>
+        <button id="prev-page" title="Anterior" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
+          <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
+            <polyline points="11 13 7 8 11 3"/>
+          </svg>
+        </button>
+        <span class="page-info" id="page-info" style="font-size:0.97em; min-width:60px;"></span>
+        <button id="next-page" title="Próxima" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
+          <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
+            <polyline points="5 3 9 8 5 13"/>
+          </svg>
+        </button>
+        <button id="last-page" title="Última página" class="pagination-icon-btn" style="min-width:24px; min-height:24px;">
+          <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
+            <polyline points="5 3 9 8 5 13"/>
+            <polyline points="9 3 13 8 9 13"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Modal para nova inscrição -->
+    <div id="modal-inscricao" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(44,49,80,0.25); z-index:1000; align-items:center; justify-content:center;">
+      <div style="background:#fff; border-radius:14px; box-shadow:0 6px 32px rgba(44,49,80,0.18); padding:2em 1.5em 1.5em 1.5em; min-width:280px; max-width:90vw; display:flex; flex-direction:column; align-items:center; position:relative;">
+        <button id="close-modal-inscricao" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:1.5em; color:#4C51BF; cursor:pointer;">&times;</button>
+        <div style="font-size:1.2em; font-weight:600; color:#4C51BF; margin-bottom:1em;">Nova inscrição</div>
+        <input id="nickname-input" type="text" placeholder="NickName" style="padding:0.7em 1em; border-radius:8px; border:1.5px solid #a3aed6; font-size:1.1em; width:100%; margin-bottom:1em;"/>
+        <button id="confirm-inscricao" style="background:#4C51BF; color:#fff; border:none; border-radius:8px; padding:0.7em 2em; font-size:1.1em; font-weight:600; cursor:pointer;">Inscrever</button>
+        <div id="inscricao-msg" style="margin-top:1em; font-size:1em; color:#e53e3e; display:none;"></div>
+      </div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script>
+    // --- Password validation logic ---
+    const VALID_PASSWORD = "694857fefe1449c1bb49c1d8504a981a7d1a830635a8bfb0b2de69675378a0c5";
+                          
+    document.getElementById('login-btn').onclick = async function() {
+      const input = document.getElementById('admin-password').value;
+      const msg = document.getElementById('login-msg');
+      const hashing = await gerarHashSHA256(input);
+     
+      if (hashing === VALID_PASSWORD) {
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('main-content').style.display = '';
+      } else {
+        msg.textContent = "Password incorreta.";
+        msg.style.display = 'block';
+      }
+    };
+    document.getElementById('admin-password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('login-btn').click();
+    });
+    // Mostrar conteúdo se já autenticado (opcional: pode remover este bloco)
+    window.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('login-overlay').style.display = 'flex';
+    });
+
     // Altere a URL conforme necessário
     const API_URL = 'https://engimatrix-engibots.com/demo/api/config/GetLastNumber';
 
@@ -498,6 +534,7 @@
     let pageSize = 10;
 
     function renderTablePage(page) {
+     
       const tbody = document.getElementById('table-body');
       tbody.innerHTML = '';
       const dataToShow = filteredData;
@@ -704,6 +741,17 @@
         msgDiv.style.color = '#e53e3e';
       });
     };
+
+    // Função utilitária para gerar hash SHA-256 de uma string (retorna uma Promise)
+    async function gerarHashSHA256(str) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(str);
+      const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+      const hash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('')
+      return hash;
+    }
+    // Exemplo de uso (apenas para debug, remova em produção):
+    // gerarHashSHA256('admin').then(console.log);
   </script>
 </body>
 </html>
