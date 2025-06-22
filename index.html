@@ -469,13 +469,27 @@
   <script>
     // --- Password validation logic ---
     const VALID_PASSWORD = "694857fefe1449c1bb49c1d8504a981a7d1a830635a8bfb0b2de69675378a0c5";
-                          
+
+    async function checkLogin() {
+      // Se já autenticado, mostra conteúdo
+      if (localStorage.getItem('admin_logged_in') === '1') {
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('main-content').style.display = '';
+        return true;
+      } else {
+        document.getElementById('main-content').style.display = 'none';
+        document.getElementById('login-overlay').style.display = 'flex';
+        return false;
+      }
+    }
+
     document.getElementById('login-btn').onclick = async function() {
       const input = document.getElementById('admin-password').value;
       const msg = document.getElementById('login-msg');
       const hashing = await gerarHashSHA256(input);
-     
+
       if (hashing === VALID_PASSWORD) {
+        localStorage.setItem('admin_logged_in', '1');
         document.getElementById('login-overlay').style.display = 'none';
         document.getElementById('main-content').style.display = '';
       } else {
@@ -486,10 +500,9 @@
     document.getElementById('admin-password').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') document.getElementById('login-btn').click();
     });
-    // Mostrar conteúdo se já autenticado (opcional: pode remover este bloco)
+
     window.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('main-content').style.display = 'none';
-      document.getElementById('login-overlay').style.display = 'flex';
+      checkLogin();
     });
 
     // Altere a URL conforme necessário
