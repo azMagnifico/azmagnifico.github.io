@@ -513,7 +513,7 @@
     });
 
     // Altere a URL conforme necessário
-    const API_URL = 'https://57.153.184.57:5000/api/config/GetLastNumber';
+    const API_URL = 'https://57.153.184.57/culliganes/api/config/GetLastNumber';
 
     function renderTable(data) {
       const tbody = document.getElementById('table-body');
@@ -712,7 +712,7 @@
         return;
       }
       // Chama o serviço para gerar nova inscrição
-      const API_URL_NOVA = 'https://57.153.184.57:5000/api/config/insertNumber';
+      const API_URL_NOVA = 'https://57.153.184.57/culliganes/api/config/insertNumber';
       msgDiv.textContent = 'A inscrever...';
       msgDiv.style.display = 'block';
       msgDiv.style.color = '#4C51BF';
@@ -738,7 +738,7 @@
             modal.style.display = 'none';
             // Recarrega os dados
             $.ajax({
-              url: 'https://57.153.184.57:5000/api/config/GetLastNumber',
+              url: 'https://57.153.184.57/culliganes/api/config/GetLastNumber',
               method: 'GET',
               headers: { 'Accept': 'application/json' }
             })
@@ -780,7 +780,7 @@
       toast.style.color = '#333';
       toast.style.display = 'block';
       toast.style.opacity = '1';
-      fetch('https://57.153.184.57:5000/api/config/ChangeSorteioStatus', {
+      fetch('https://57.153.184.57/culliganes/api/config/ChangeSorteioStatus', {
         method: 'GET',
         headers: { 'Accept': 'application/json' }
       })
